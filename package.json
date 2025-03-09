@@ -1,0 +1,14 @@
+{
+  "name": "credenciales-representantes-utem",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "google-auth-library": "^9.15.1",
+    "google-spreadsheet": "^4.1.4",
+    "hono": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
