@@ -36,7 +36,7 @@ app.get('/info/:correo', async (c) => {
     nombre: encodeURIComponent(row.get('Nombre y apellido (Juan Lopez)')?.trim()),
     cargo: encodeURIComponent(row.get('Cargo')?.trim()),
     carrera: encodeURIComponent(row.get('Carrera')?.trim()),
-    selfie: encodeURIComponent(row.get('Sube una selfie')?.trim())
+    selfie: encodeURIComponent(row.get('Sube una selfie')?.trim() || 'https://mi.utem.cl/static/img/topicons/icono-estudiante-activo.svg')
   })
 })
 
