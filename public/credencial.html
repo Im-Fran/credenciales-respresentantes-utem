@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es-cl">
+<head>
+    <title>Credencial</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/modern-screenshot@4.6.0/dist/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qr-creator/dist/qr-creator.min.js"></script>
+
+    <link rel="preload" href="/static/full_icon.png" as="image" />
+    <link rel="preload" href="/static/persona.svg" as="image" />
+    <link rel="preload" href="/static/front.png" as="image" />
+    <link rel="preload" href="/static/back.png" as="image" />
+</head>
+
+<body x-data="{ flipped: false }">
+<div class="relative flex flex-col items-center justify-center" @click="flipped = !flipped">
+    <div id="front" class="flex flex-col items-center justify-center" x-show="!flipped">
+        <img src="/static/front.png" alt="" class="absolute top-0 rounded-lg h-screen" />
+
+        <div class="relative flex flex-col items-center justify-center space-y-6 h-screen">
+            <img src="{photo}" alt="" class="w-64 h-64 object-cover object-center rounded-full border-6 border-[#315D79]"/>
+
+            <div class="flex flex-col items-center justify-center mt-10 w-full">
+                <h3 class="text-2xl text-[#315D79] uppercase font-semibold">{nombre}</h3>
+
+                <div class="border-3 my-2.5 border-[#315D79] rounded-full w-2/3"></div>
+
+                <span class="text-lg text-[#315D79] uppercase">{cargo}</span>
+            </div>
+
+            <div class="relative flex flex-col items-center justify-center mt-10 w-full">
+                <div id="front-qr" class="p-2 rounded-lg border-6 border-[#3c3c3c]"></div>
+                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                    <img src="/static/full_icon.png" alt="" class="w-10 backdrop-blur rounded-lg" />
+                </div>
+
+                <script>
+                    QrCreator.render({
+                        text: '{correo}',
+                        radius: 0.5, // 0.0 to 0.5
+                        ecLevel: 'H', // L, M, Q, H
+                        fill: '#536DFE', // foreground color
+                        background: null, // color or null for transparent
+                        size: 128 // in pixels
+                    }, document.querySelector('#front-qr'));
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div id="back" class="flex flex-col items-center justify-center" x-show="flipped">
+        <img src="/static/back.png" alt="" class="absolute top-0 rounded-lg h-screen" />
+
+        <div class="relative flex flex-col items-center justify-center mt-10 w-full h-screen">
+            <div class="relative flex flex-col items-center justify-center mt-10 w-full">
+                <div id="back-qr" class="p-2 rounded-lg border-6 border-[#3c3c3c]"></div>
+                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                    <img src="/static/full_icon.png" alt="" class="w-10 backdrop-blur rounded-lg" />
+                </div>
+
+                <script>
+                    QrCreator.render({
+                        text: '{url}',
+                        radius: 0.5, // 0.0 to 0.5
+                        ecLevel: 'H', // L, M, Q, H
+                        fill: '#536DFE', // foreground color
+                        background: null, // color or null for transparent
+                        size: 192 // in pixels
+                    }, document.querySelector('#back-qr'));
+                </script>
+            </div>
+
+            <div class="flex flex-col items-center justify-center mt-10 w-full">
+                <h3 class="text-2xl text-[#315D79] uppercase font-bold">Contacto</h3>
+                <span class="text-lg text-[#315D79] lowercase">{correo}</span>
+
+                <span class="mt-10 text-[#315D79] w-3/4 text-center capitalize">{carrera}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//unpkg.com/alpinejs" defer></script>
+<script>
+    modernScreenshot.domToPng(document.querySelector('#front')).then(dataUrl => {
+        const link = document.createElement('a')
+        link.download = 'badge-front.png'
+        link.href = dataUrl
+        // link.click()
+    })
+</script>
+</body>
+</html>
